@@ -209,7 +209,7 @@ def word2vec_topic_model(data_processed: list, vocab: list, tokenized_docs: list
 
 
 def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, test_tokenized_segments: list,
-                       data_set_name: str, topic_vector_flag: bool = False):
+                       data_set_name: str, topic_vector_flag: bool = False, graph_level:str = "words"):
     """
     k_components_model is used to perform topic model on the word embedding graph using k-components algorithm.
     This function uses the k-components approximation function from the Networkx library
@@ -220,8 +220,13 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
     :param test_tokenized_segments: tokenized version of the test data set
     :param data_set_name: name of the preprocessed data set used
     :param topic_vector_flag: flag for using re-ranking words or topic vector similarity
+    :param graph_level: level of the graph
 
     """
+    if graph_level == "sentences":
+        get_sentence_vectors(data_processed, vocab)
+        return
+
     n_words = len([w for d in data_processed for w in d])
     word_weights = get_word_weights(data_processed, vocab, n_words, weight_type='tf')
 

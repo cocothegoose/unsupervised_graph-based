@@ -1,3 +1,5 @@
+import clip
+import torch
 from sklearn.metrics.pairwise import cosine_similarity
 import math
 from src.visualizations import *
@@ -182,3 +184,9 @@ def save_model_scores(x_values: list, models: list, model_topics: dict, model_c_
                          dbs_scores=dbs_scores)
 
     plt.close('all')
+
+
+def split_long_text(model, vocab:list, chunk_size: int = 77) \
+        -> None:
+
+    return None

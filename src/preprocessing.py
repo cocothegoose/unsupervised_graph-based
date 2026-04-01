@@ -1,3 +1,7 @@
+# Modified by: Coco Sittardt
+# Date: 01.04.2026
+# Changes: new preprocessing version for sentence-based tokens
+from nltk import sent_tokenize # ADDED
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -45,7 +49,7 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str,
     :return:
         - preprocessed segments
         - labels of preprocessed segments
-        - list of vocabulary words
+        - sorted list of vocabulary words
         - list of tokenized 'raw' segments
 
     """
@@ -78,40 +82,53 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str,
     tokenized_docs = []
     for i, doc in enumerate(segments):
 
-        doc = doc.lower()
-        tokens = word_tokenize(doc)
+        # the original pipeline for preprocessing the tokens
+        if graph_level == "words":
+            doc = doc.lower()
+            tokens = word_tokenize(doc)
 
-        # remove all tokens that are < 3
-        tokens = [w for w in tokens if len(w) > 2]
+            # remove all tokens that are < 3
+            tokens = [w for w in tokens if len(w) > 2]
 
-        # remove all tokens that are just digits
-        tokens = [w for w in tokens if w.isalpha()]
+            # remove all tokens that are just digits
+            tokens = [w for w in tokens if w.isalpha()]
 
-        tokenized_doc = [w for w in tokens]
+            tokenized_doc = [w for w in tokens]
 
-        # remove stop words before stemming/lemmatizing
-        if do_stop_word_removal:
-            tokens = [w for w in tokens if w not in stop_words]
+            # remove stop words before stemming/lemmatizing
+            if do_stop_word_removal:
+                tokens = [w for w in tokens if w not in stop_words]
 
-        # remove all words that are not nouns
-        if do_just_nouns:
-            tokens = [w for (w, pos) in nltk.pos_tag(tokens) if pos in ['NN', 'NNP', 'NNS', 'NNPS']]
+            # remove all words that are not nouns
+            if do_just_nouns:
+                tokens = [w for (w, pos) in nltk.pos_tag(tokens) if pos in ['NN', 'NNP', 'NNS', 'NNPS']]
 
-        # stemming
-        if do_stemming:
-            tokens = [PorterStemmer().stem(w) for w in tokens]
+            # stemming
+            if do_stemming:
+                tokens = [PorterStemmer().stem(w) for w in tokens]
 
-        # lemmatizing
-        if do_lemmatizing:
-            tokens = [WordNetLemmatizer().lemmatize(w) for w in tokens]
+            # lemmatizing
+            if do_lemmatizing:
+                tokens = [WordNetLemmatizer().lemmatize(w) for w in tokens]
 
-        if len(tokens) == 0:
-            continue
+            if len(tokens) == 0:
+                continue
+        # [MODIFIED]for sentences, it is not needed to do any of the lemmatizing or stemming
+        else:
+            assert graph_level == "sentences"
+            tokens = sent_tokenize(doc)
+            tokenized_doc = [w for w in tokens]
+            if len(tokens) == 0:
+                continue
+
 
         new_docs.append(tokens)
         new_labels.append(segment_labels[i])
         vocabulary.extend(tokens)
         tokenized_docs.append(tokenized_doc)
+
+
+
 
     if remove_low_freq:
         # remove low-frequency terms

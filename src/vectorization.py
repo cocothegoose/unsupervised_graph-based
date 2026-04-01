@@ -1,8 +1,14 @@
+# Modified by: Coco Sittardt
+# Date: 01.04.2026
+# Changes: adding sentence vectors using CLIP https://github.com/openai/CLIP
 from gensim.models import Word2Vec
 import numpy as np
 from typing import Tuple
 from pathlib import Path
 import pickle
+import os
+import clip
+import torch
 
 
 def create_w2v_model(processed_data: list, min_c: int, win: int, negative: int, seed: int,
@@ -106,6 +112,33 @@ def get_word_vectors(processed_data: list, vocab: list, model_file_name: str, pa
         vocab_embeddings = [w2v_model.wv.vectors[w2v_model.wv.key_to_index[w]]
                             for w in vocab_words]
     return vocab_words, vocab_embeddings, w2v_model
+
+def get_sentence_vectors(processed_data: list, vocab: list,)-> \
+        None:
+    """
+    get_sentence_vectors calculates the sentence embeddings (no presaved models or anything)
+
+    :param processed_data: list of processed documents
+    :param vocab: sorted list of sentences in the processed documents
+    :rtype: list, list, clip
+    :return:
+        - vocab_words - list of vocabulary sentences
+        - vocab_embeddings - list of embeddings for the vocabulary sentences
+        - clip_model - CLIP model
+    """
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model, preprocess = clip.load("ViT-B/32", device=device)
+
+    text = clip.tokenize(vocab, truncate=True).to(device)
+
+
+    with torch.no_grad():
+        embedding = model.encode_text(text)
+
+    # making one big embedding per sentence => single tensor
+    vocab_embedding = torch.cat(embedding,dim=0)
+
+    print(vocab_embedding.shape)
 
 
 def get_vocabulary_embeddings(training_data_processed: list, vocab: list, topic_model: str, model_file_name: str,
