@@ -1,4 +1,19 @@
-# Unsupervised Graph-based Topic Modeling from Video Transcriptions
+## Implementation Notes
+**Modified by**: Coco Sittardt
+
+**Date**: April 2026
+
+**Changes**:   
+Replacing the Word-level Graph with a Sentence-Level Graph using sentence embeddings via CLIP. Goal is 
+to adapt and extend the existing implementation, while keeping the rest of the pipeline unchanged.
+
+**Based on original Work**:  
+https://github.com/JaTrev/unsupervised_graph-based
+and the paper "Unsupervised Graph-based Topic Modeling from Video Transcriptions"
+by Jason Thies, Lukas Stappen, Gerhard Hagerer, Björn W. Schuller, and Georg Groh.
+---
+
+### Unsupervised Graph-based Topic Modeling from Video Transcriptions
 This is the repository of the paper
 "Unsupervised Graph-based Topic Modeling from Video Transcriptions"
 by Jason Thies, Lukas Stappen, Gerhard Hagerer, Björn W. Schuller, and Georg Groh.

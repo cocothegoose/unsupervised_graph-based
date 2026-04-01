@@ -1,3 +1,6 @@
+# Modified by: Coco Sittardt
+# Date: 01.04.2026
+# Changes: adding new arguments to start the sentence version
 from src.get_data import *
 from src.preprocessing import *
 from src.topic_modeling import *
@@ -5,10 +8,11 @@ import argparse
 
 
 def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: list,
-             raw_test_data: list = None, raw_test_labels: list = None):
+             raw_test_data: list = None, raw_test_labels: list = None, graph_level: str = None):
     """
     main function performing all topic models
 
+    :param graph_level: the depth of the graph
     :param data_set: name of preprocessed data set
     :param topic_model_type: name of topic model
     :param raw_data: original segments
@@ -16,9 +20,16 @@ def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: l
     :param raw_test_data: original test set
     :param raw_test_labels: original test set labels
     """
+    if graph_level == "words":
+        data_processed, data_processed_labels, vocab, tokenized_docs = preprocessing(
+            raw_data, raw_labels, preprocessing_type=data_set)
+    else:
+        assert graph_level == "sentences"
+        # todo the way of preprocessing
+        data_processed, data_processed_labels, vocab, tokenized_docs = preprocessing(
 
-    data_processed, data_processed_labels, vocab, tokenized_docs = preprocessing(
-        raw_data, raw_labels, preprocessing_type=data_set)
+        )
+
 
     if (raw_test_data is not None) and (raw_test_labels is not None):
         _, _, _, test_tokenized_docs = preprocessing(raw_test_data, raw_test_labels,
@@ -59,15 +70,21 @@ if __name__ == "__main__":
     parser.add_argument('--do_testing', dest='do_testing', required=False, default=False, action='store_true',
                         help="is test data available?")
 
+    parser.add_argument("--graph-level", dest="graph_level", required=True, type=str,
+                        help="the level of the graph: sentences or words")
+
     args = parser.parse_args()
 
     assert args.data_set in ["MUSE", "CRR"], "name the data set you want to use ('MUSE' or 'CRR')"
     assert args.topic_model in ['RRW', 'TVS', 'k-components', 'LDA'], (
         "select one of the topic models: ['RRW', 'TVS', 'k-components', 'LDA]")
+    assert args.graph_level in ['sentences', 'words'], (
+        "select one of the graph levels: ['sentences', 'words']"
+    )
 
     filtered_data, filtered_data_labels, filtered_test_data, filtered_test_data_labels = get_data(
             data_set=args.data_set, get_test_data=args.do_testing)
 
     main_fct(data_set=args.data_set, topic_model_type=args.topic_model,
              raw_data=filtered_data, raw_labels=filtered_data_labels,
-             raw_test_data=filtered_test_data, raw_test_labels=filtered_test_data_labels)
+             raw_test_data=filtered_test_data, raw_test_labels=filtered_test_data_labels, graph_level=args.graph_level )

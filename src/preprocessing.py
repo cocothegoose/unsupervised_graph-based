@@ -32,7 +32,7 @@ stop_words.extend(['put', 'yeah', 'lot''dot', 'le', "'ve", 'really', 'like', 'go
 stop_words.extend(["\'re", "n\'t", "n\'t", "'ve", "really", "car", "cars"])
 
 
-def preprocessing(segments: list, segment_labels: list, preprocessing_type: str) \
+def preprocessing(segments: list, segment_labels: list, preprocessing_type: str, graph_level: str="words") \
         -> Tuple[list, list, list, list]:
     """
     preprocessing is used to preprocess the data set
@@ -40,6 +40,7 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str)
     :param segments: raw list of segments
     :param segment_labels: list of segment labels
     :param preprocessing_type: defines the preprocessing approach (["JN", "FP"])
+    :param graph_level: activates sentence level processing if set to sentences
 
     :return:
         - preprocessed segments
@@ -65,6 +66,11 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str)
         do_stop_word_removal = True
         remove_low_freq = True
         count_threshold = 30
+
+    # set everything to False if graph level is sentences to not remove any tokens
+    if graph_level == "sentences":
+        do_just_nouns, do_lemmatizing, do_stop_word_removal, remove_low_freq= False, False, False, False
+        count_threshold = 1
 
     vocabulary = []
     new_docs = []
@@ -135,3 +141,5 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str)
 
     assert len(new_docs) == len(new_labels)
     return new_docs, new_labels, sorted(list(set(vocabulary))), tokenized_docs
+
+
