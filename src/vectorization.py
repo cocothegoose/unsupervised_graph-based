@@ -3,12 +3,13 @@
 # Changes: adding sentence vectors using CLIP https://github.com/openai/CLIP
 from gensim.models import Word2Vec
 import numpy as np
-from typing import Tuple
+from typing import Tuple, Any, Union
 from pathlib import Path
 import pickle
 import os
 import clip
 import torch
+from torch import Tensor
 
 
 def create_w2v_model(processed_data: list, min_c: int, win: int, negative: int, seed: int,
@@ -114,7 +115,7 @@ def get_word_vectors(processed_data: list, vocab: list, model_file_name: str, pa
     return vocab_words, vocab_embeddings, w2v_model
 
 def get_sentence_vectors(processed_data: list, vocab: list,)-> \
-        None:
+        Union[Tensor, Any]:
     """
     get_sentence_vectors calculates the sentence embeddings (no presaved models or anything)
 
@@ -126,19 +127,38 @@ def get_sentence_vectors(processed_data: list, vocab: list,)-> \
         - vocab_embeddings - list of embeddings for the vocabulary sentences
         - clip_model - CLIP model
     """
+    # it has to run on CPU for me - no cuda compatible gpu sadly
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model, preprocess = clip.load("ViT-B/32", device=device)
 
-    text = clip.tokenize(vocab, truncate=True).to(device)
+    if device == "cpu":
+        # doing batches so my poor cpu and ram can catch a break
+        embeddings = []
+        step_size = 30
+        for i in range(0, len(vocab), step_size):
+            current_batch = vocab[i:i + step_size]
+            # truncat true as some sentences too long
+            # possible fix would be to split the sentences and average their embedding to accurately represent
+            # the big sentences with more than 77 tokens
+            text = clip.tokenize(current_batch, truncate=True).to(device)
+            with torch.no_grad():
+                embedding_i = model.encode_text(text)
+            embeddings.append(embedding_i)
 
+            print("I ran once")
+            del text
+        # making one big embedding per sentence => single tensor
+        vocab_embeddings = torch.cat(embeddings,dim=0)
 
-    with torch.no_grad():
-        embedding = model.encode_text(text)
+        print(vocab_embeddings.shape)
+        return vocab_embeddings
+    else:
+        assert device == "cuda"
+        text = clip.tokenize(vocab, truncate=True).to(device)
+        with torch.no_grad():
+            vocab_embeddings = model.encode_text(text)
 
-    # making one big embedding per sentence => single tensor
-    vocab_embedding = torch.cat(embedding,dim=0)
-
-    print(vocab_embedding.shape)
+        return vocab_embeddings
 
 
 def get_vocabulary_embeddings(training_data_processed: list, vocab: list, topic_model: str, model_file_name: str,

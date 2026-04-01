@@ -1,6 +1,8 @@
 # Modified by: Coco Sittardt
 # Date: 01.04.2026
 # Changes: adding new arguments to start the sentence version
+import time
+
 from oauthlib.uri_validate import segment
 from src.get_data import *
 from src.preprocessing import *
@@ -86,7 +88,11 @@ if __name__ == "__main__":
     filtered_data, filtered_data_labels, filtered_test_data, filtered_test_data_labels = get_data(
             data_set=args.data_set, get_test_data=args.do_testing)
 
-
+    start_time = time.time()
+    print(time.localtime())
     main_fct(data_set=args.data_set, topic_model_type=args.topic_model,
              raw_data=filtered_data, raw_labels=filtered_data_labels,
              raw_test_data=filtered_test_data, raw_test_labels=filtered_test_data_labels, graph_level=args.graph_level )
+
+    end_time = time.time()
+    print("time taken: ", end_time - start_time)
