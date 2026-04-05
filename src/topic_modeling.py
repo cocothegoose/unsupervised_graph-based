@@ -224,22 +224,24 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
 
     """
     if graph_level == "sentences":
-        get_sentence_vectors(data_processed, vocab)
-        return
+        vocab_words, vocab_embeddings, clip_model = get_sentence_vectors(data_processed, vocab)
 
-    n_words = len([w for d in data_processed for w in d])
-    word_weights = get_word_weights(data_processed, vocab, n_words, weight_type='tf')
+    else:
+        assert graph_level == "words"
 
-    """
-    vocab_words, vocab_embeddings, w2v_model = get_vocabulary_embeddings(data_processed, vocab,
-                                                                         topic_model="k-components",
-                                                                         model_file_name="w2v_model-k_components-"
-                                                                                         + data_set_name + ".pickle",
-                                                                         data_set_name=data_set_name)
-    """
-    vocab_words, vocab_embeddings, w2v_model = get_vocabulary_embeddings(
-        data_processed, vocab, topic_model="baseline", model_file_name="w2v_model-" + data_set_name + ".pickle",
-        data_set_name=data_set_name)
+        n_words = len([w for d in data_processed for w in d])
+        word_weights = get_word_weights(data_processed, vocab, n_words, weight_type='tf')
+
+        """
+        vocab_words, vocab_embeddings, w2v_model = get_vocabulary_embeddings(data_processed, vocab,
+                                                                             topic_model="k-components",
+                                                                             model_file_name="w2v_model-k_components-"
+                                                                                             + data_set_name + ".pickle",
+                                                                             data_set_name=data_set_name)
+        """
+        vocab_words, vocab_embeddings, w2v_model = get_vocabulary_embeddings(
+            data_processed, vocab, topic_model="baseline", model_file_name="w2v_model-" + data_set_name + ".pickle",
+            data_set_name=data_set_name)
 
     # dictionary used to save topic model scores
     y_topics = {"K=1": [], "K=2": [], "K=3": []}
