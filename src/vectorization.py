@@ -115,7 +115,8 @@ def get_word_vectors(processed_data: list, vocab: list, model_file_name: str, pa
     return vocab_words, vocab_embeddings, w2v_model
 
 
-def get_sentence_vectors(processed_data: list, vocab: list,)-> \
+# [Coco] new vectorizing method for sentences using clip!
+def get_sentence_vectors(vocab: list,)-> \
         Tuple[list, list, clip.model.CLIP ]:
     """
     get_sentence_vectors calculates the sentence embeddings (no presaved models or anything)
@@ -166,14 +167,14 @@ def get_sentence_vectors(processed_data: list, vocab: list,)-> \
         # turning the tensor into a numpy array, with cpu() as numpy cant access gpu
         return vocab, vocab_embeddings.cpu().numpy(), clip_model
 
-
-def get_vocabulary_embeddings(training_data_processed: list, vocab: list, topic_model: str, model_file_name: str,
+def get_vocabulary_embeddings(training_data_processed: list, vocab: list, graph_level:str, topic_model: str, model_file_name: str,
                               data_set_name: str) -> Tuple[list, list, Word2Vec]:
     """
     get_vocabulary_embeddings fetches the word embeddings of all relevant vocabulary words
 
     :param training_data_processed: training set
     :param vocab: list of vocabulary words, calculated in preprocessing
+    :param graph_level: switch for sentence/word level graph
     :param topic_model: name of the topic modelling approach
     :param model_file_name: name of the saved topic model
     :param data_set_name: name of the preprocessed data set used
@@ -182,19 +183,26 @@ def get_vocabulary_embeddings(training_data_processed: list, vocab: list, topic_
         - vocab_embeddings - list of embeddings for the vocabulary words
         - w2v_model - Word2Vec model
     """
-    w2v_params_k_components = {"min_c": 50, "win": 15, "negative": 0, "sample": 1e-5,
-                               "hs": 1, "epochs": 400, "sg": 1, 'seed': 42}
-    w2v_params_baseline = {"min_c": 10, "win": 7, "negative": 0, "sample": 1e-5,
-                           "hs": 1, "epochs": 400, "sg": 1, 'seed': 42,
-                           'ns_exponent': 0.75}
-    if topic_model == "k-components":
-        w2v_params = w2v_params_k_components
+    # [Coco] to change minimal things this function switches between sentence and word embeddings
+    # depending on the graph-level passed
+    if graph_level == "sentences":
+        # using out-of-the-box clip without changing any settings
+        return get_sentence_vectors(vocab)
     else:
-        assert topic_model == "baseline"
-        w2v_params = w2v_params_baseline
+        assert graph_level == "words"
+        w2v_params_k_components = {"min_c": 50, "win": 15, "negative": 0, "sample": 1e-5,
+                                   "hs": 1, "epochs": 400, "sg": 1, 'seed': 42}
+        w2v_params_baseline = {"min_c": 10, "win": 7, "negative": 0, "sample": 1e-5,
+                               "hs": 1, "epochs": 400, "sg": 1, 'seed': 42,
+                               'ns_exponent': 0.75}
+        if topic_model == "k-components":
+            w2v_params = w2v_params_k_components
+        else:
+            assert topic_model == "baseline"
+            w2v_params = w2v_params_baseline
 
-    return get_word_vectors(training_data_processed, vocab, model_file_name=model_file_name, params=w2v_params,
-                            data_set_name=data_set_name)
+        return get_word_vectors(training_data_processed, vocab, model_file_name=model_file_name, params=w2v_params,
+                                data_set_name=data_set_name)
 
 
 def get_topic_vector(topic_embeddings: list) -> np.ndarray:

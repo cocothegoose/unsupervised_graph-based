@@ -220,28 +220,25 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
     :param test_tokenized_segments: tokenized version of the test data set
     :param data_set_name: name of the preprocessed data set used
     :param topic_vector_flag: flag for using re-ranking words or topic vector similarity
-    :param graph_level: level of the graph
+    :param graph_level: sentence or word level graph
 
     """
-    if graph_level == "sentences":
-        vocab_words, vocab_embeddings, clip_model = get_sentence_vectors(data_processed, vocab)
+    n_words = len([w for d in data_processed for w in d])
+    word_weights = get_word_weights(data_processed, vocab, n_words, weight_type='tf')
 
-    else:
-        assert graph_level == "words"
+    """
+    vocab_words, vocab_embeddings, w2v_model = get_vocabulary_embeddings(data_processed, vocab,
+                                                                         topic_model="k-components",
+                                                                         model_file_name="w2v_model-k_components-"
+                                                                                         + data_set_name + ".pickle",
+                                                                         data_set_name=data_set_name)
+    """
 
-        n_words = len([w for d in data_processed for w in d])
-        word_weights = get_word_weights(data_processed, vocab, n_words, weight_type='tf')
-
-        """
-        vocab_words, vocab_embeddings, w2v_model = get_vocabulary_embeddings(data_processed, vocab,
-                                                                             topic_model="k-components",
-                                                                             model_file_name="w2v_model-k_components-"
-                                                                                             + data_set_name + ".pickle",
-                                                                             data_set_name=data_set_name)
-        """
-        vocab_words, vocab_embeddings, w2v_model = get_vocabulary_embeddings(
-            data_processed, vocab, topic_model="baseline", model_file_name="w2v_model-" + data_set_name + ".pickle",
-            data_set_name=data_set_name)
+    # no new function just a graph_level switch in get_vocabulary_embeddings
+    # sentence version ignores everything and only uses vocab :)
+    vocab_words, vocab_embeddings, model = get_vocabulary_embeddings(
+        data_processed, vocab, graph_level, topic_model="baseline", model_file_name="w2v_model-" + data_set_name + ".pickle",
+        data_set_name=data_set_name)
 
     # dictionary used to save topic model scores
     y_topics = {"K=1": [], "K=2": [], "K=3": []}
@@ -281,27 +278,40 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
             # extract k-components
             temp_k_dict = {"K=1": 1, "K=2": 2, "K=3": 3}
             components = components_all[temp_k_dict[k_component]]
+            print("components {comp}".format(comp=components))
 
             # remove too small topics
             corpus_clusters = []
-            clusters_words_embeddings = []
+
+            # [coco] rename so it's not so awkward for only sentences
+            clusters_embeddings = []
             for comp in components:
-                if len(comp) >= 6:
+                print("comp {comp}".format(comp=comp))
+                # [coco] we need to filter for less than 6 for sentences
+                if (len(comp) >= 6 and graph_level == "words") or (len(comp) >= 2 and graph_level == "sentences"):
                     corpus_clusters.append(list(comp))
-                    clusters_words_embeddings.append([vocab_embeddings[vocab_words.index(w)] for w in comp])
+                    if graph_level == "sentences":
+                        indices =  np.array([vocab_words.index(w) for w in comp])
+                        clusters_embeddings.append(vocab_embeddings[indices])
+                    if graph_level == "words":
+                        clusters_embeddings.append([vocab_embeddings[vocab_words.index(w)] for w in comp])
+            print("cluster embeddings example: {}".format(clusters_embeddings))
 
             if topic_vector_flag:
                 # perform Topic Vector Similarity
-                topic_vectors = [get_topic_vector(c) for c in clusters_words_embeddings]
-
+                # [coco] only for words, no averaging is needed for sentences
+                if graph_level == "words":
+                    topic_vectors = [get_topic_vector(c) for c in clusters_embeddings]
+                else:
+                    topic_vectors = clusters_embeddings
                 # get topics based on topic vectors
                 topic_vector_cluster_words = []
                 topic_vector_cluster_words_embeddings = []
                 for i, t_vector in enumerate(topic_vectors):
-                    sim_indices = get_nearest_indices(t_vector, clusters_words_embeddings[i])
+                    sim_indices = get_nearest_indices(t_vector, clusters_embeddings[i])
 
                     topic_vector_cluster_words.append([corpus_clusters[i][i_w] for i_w in sim_indices])
-                    topic_vector_cluster_words_embeddings.append([clusters_words_embeddings[i][i_w]
+                    topic_vector_cluster_words_embeddings.append([clusters_embeddings[i][i_w]
                                                                   for i_w in sim_indices])
                 cluster_words = topic_vector_cluster_words
 
@@ -310,7 +320,10 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
                 cluster_words = [sorted(list(c), key=(lambda w: sort_words_by(graph, w, word_weights)), reverse=True)
                                  for c in corpus_clusters]
 
+            print("cluster words example: {}".format(cluster_words))
+
             if len(cluster_words) <= 2:
+                print("cluster words less than 2: true")
                 # topic model did not find enough topics
                 # -1000.0 is the NaN value used in the charts, these values will not be shown in the charts
                 cs_c_v = -1000.0
@@ -322,7 +335,7 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
                 cs_u_mass_test = -1000.0
             else:
                 # for w in words] for words in cluster_words]
-
+                print("Clusterwords: \n {}".format(cluster_words))
                 # topic model evaluation
                 # intrinsic scores
                 cs_c_v = get_coherence_score(tokenized_docs, cluster_words)
@@ -339,6 +352,8 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
                     cs_c_v_test = -1000.0
                     cs_npmi_test = -1000.0
                     cs_u_mass_test = -1000.0
+
+
 
             y_topics[k_component].append(cluster_words)
             y_c_v_model[k_component].append(cs_c_v)
