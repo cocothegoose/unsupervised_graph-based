@@ -168,9 +168,9 @@ def get_sentence_vectors(vocab: list,)-> \
         return vocab, vocab_embeddings.cpu().numpy(), clip_model
 
 def get_vocabulary_embeddings(training_data_processed: list, vocab: list, graph_level:str, topic_model: str, model_file_name: str,
-                              data_set_name: str) -> Tuple[list, list, Word2Vec]:
+                              data_set_name: str) -> Tuple[list, list, Word2Vec]: # TODO this also has to be able to return the clip model
     """
-    get_vocabulary_embeddings fetches the word embeddings of all relevant vocabulary words
+    get_vocabulary_embeddings fetches the word embeddings of all relevant vocabulary words / sentences
 
     :param training_data_processed: training set
     :param vocab: list of vocabulary words, calculated in preprocessing
@@ -181,7 +181,7 @@ def get_vocabulary_embeddings(training_data_processed: list, vocab: list, graph_
     :return:
         - vocab_words - list of vocabulary words
         - vocab_embeddings - list of embeddings for the vocabulary words
-        - w2v_model - Word2Vec model
+        - model - w2v or clip model
     """
     # [Coco] to change minimal things this function switches between sentence and word embeddings
     # depending on the graph-level passed

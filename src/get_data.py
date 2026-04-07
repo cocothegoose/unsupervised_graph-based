@@ -1,3 +1,5 @@
+# Modified By: Coco Sittardt
+#
 import glob
 import os
 import pandas as pd
@@ -142,12 +144,12 @@ def get_data(data_set: str, get_test_data: bool, task_data_path='data/processed_
 
         return data, labels, test_data, test_labels
 
-    if Path("data/saved_data.pickle").is_file():
+    if Path("data/saved_data_short-version.pickle").is_file():
 
-        with open("data/saved_data.pickle", "rb") as myFile:
+        with open("data/saved_data_short-version.pickle", "rb") as myFile:
             data = pickle.load(myFile)
 
-        with open("data/saved_data_labels.pickle", "rb") as myFile:
+        with open("data/saved_data_labels_short-version.pickle", "rb") as myFile:
             data_labels = pickle.load(myFile)
 
         if get_test_data:
@@ -171,10 +173,10 @@ def get_data(data_set: str, get_test_data: bool, task_data_path='data/processed_
         data_labels = all_data['train']['labels_topic']
         data_labels.extend(all_data['devel']['labels_topic'])
 
-        with open("data/saved_data.pickle", "wb") as myFile:
+        with open("data/saved_data_short-version.pickle", "wb") as myFile:
             pickle.dump(data, myFile)
 
-        with open("data/saved_data_labels.pickle", "wb") as myFile:
+        with open("data/saved_data_labels_short-version.pickle", "wb") as myFile:
             pickle.dump(data_labels, myFile)
 
         if get_test_data:

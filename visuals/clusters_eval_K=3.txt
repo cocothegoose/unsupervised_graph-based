@@ -1,0 +1,114 @@
+Topic 1
+Also vying for your luxury SUV allowance . It's powered by BMW twin powered , turbo charged three liter inline six . Add in most of the features one would expect to come . I want more control and quick acceleration . Okay , now let's see how it really drives . It's a coupe like vehicle . It can also be turned off if you prefer . Veering too superficial concerns . I starts around 37 a half $1000 including destination charges . Interior fit and finishes are expected . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 188.078125
+number of nodes: 250
+
+
+
+Topic 1
+Also vying for your luxury SUV allowance . It's powered by BMW twin powered , turbo charged three liter inline six . It's a coupe like vehicle . Okay , now let's see how it really drives . But we could have if that doesn't turn you off . I want more control and quick acceleration . It can also be turned off if you prefer . Those in the market for a well equipped for 35 . I kind of dig . You can't make this stuff up wave to the people . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 98.453125
+number of nodes: 227
+
+
+
+Topic 1
+Also vying for your luxury SUV allowance . Okay , it's not yet . Yeah , what , he said . It's powered by BMW twin powered , turbo charged three liter inline six . Veering too superficial concerns . It can also be turned off if you prefer . Add in most of the features one would expect to come . You can't make this stuff up wave to the people . But we could have if that doesn't turn you off . So what do you think ? 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 52.265625
+number of nodes: 207
+
+
+
+Topic 1
+I kind of dig . Yeah , what , he said . Also vying for your luxury SUV allowance . Add in most of the features one would expect to come . Okay , it's not yet . I like to put it another way . When it comes to well , pretty much everything . Veering too superficial concerns . Those in the market for a well equipped for 35 . Deep breaths . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 19.718750
+number of nodes: 167
+
+
+
+Topic 1
+Yeah , what , he said . Okay , it's not yet . Veering too superficial concerns . I kind of dig . I like to put it another way . When it comes to well , pretty much everything . Add in most of the features one would expect to come . Almost . Deep breaths . Also vying for your luxury SUV allowance . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 4.203125
+number of nodes: 117
+
+
+
+Topic 1
+I kind of dig . I like to put it another way . Add in most of the features one would expect to come . It can also be turned off if you prefer . Okay , it's not yet . When it comes to well , pretty much everything . Deep breaths . Let's give that a try . Yeah , what , he said . Almost . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 1.656250
+number of nodes: 67
+
+
+

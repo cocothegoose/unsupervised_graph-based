@@ -1,6 +1,13 @@
+# Modified by: Coco Sittard
+# Date: 05.04.2026
+# Changes: Added all the switches for sentences
+# Date: 07.04.2026
+# Changes: Tried to fix the coherence Score, gave up and took it out
+
 from src.vectorization import *
 from src.clustering import *
 from src.graphs import *
+from src.preprocessing import *
 from src.misc import save_model_scores
 from networkx.algorithms import approximation as approx
 from gensim.models import LdaModel
@@ -207,20 +214,19 @@ def word2vec_topic_model(data_processed: list, vocab: list, tokenized_docs: list
                       filename_prefix=filename_prefix,
                       model_dbs_scores=y_dbs_model, x_label="Number of Topics")
 
-
 def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, test_tokenized_segments: list,
                        data_set_name: str, topic_vector_flag: bool = False, graph_level:str = "words"):
     """
-    k_components_model is used to perform topic model on the word embedding graph using k-components algorithm.
+    k_components_model is used to perform topic model on the word or sentence embedding graph using k-components algorithm.
     This function uses the k-components approximation function from the Networkx library
 
-    :param data_processed: preprocessed data set used to calculated word embeddings
+    :param data_processed: preprocessed data set used to calculated word / sentence embeddings
     :param vocab: vocabulary of the preprocessed data set
     :param tokenized_docs: tokenized version of the training data set
     :param test_tokenized_segments: tokenized version of the test data set
     :param data_set_name: name of the preprocessed data set used
-    :param topic_vector_flag: flag for using re-ranking words or topic vector similarity
-    :param graph_level: sentence or word level graph
+    :param topic_vector_flag: flag for using re-ranking words / sentence or topic vector similarity
+    :param graph_level: word or sentence level graph
 
     """
     n_words = len([w for d in data_processed for w in d])
@@ -234,8 +240,8 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
                                                                          data_set_name=data_set_name)
     """
 
-    # no new function just a graph_level switch in get_vocabulary_embeddings
-    # sentence version ignores everything and only uses vocab :)
+    # [Coco] no new function just a graph_level switch in get_vocabulary_embeddings
+    # [Coco] sentence version ignores everything and only uses vocab :)
     vocab_words, vocab_embeddings, model = get_vocabulary_embeddings(
         data_processed, vocab, graph_level, topic_model="baseline", model_file_name="w2v_model-" + data_set_name + ".pickle",
         data_set_name=data_set_name)
@@ -260,16 +266,20 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
     else:
         x = [x for x in range(50, 100, 10)] + [95]
     for sim in x:
-
         # create word embedding graph using cutoff threshold
+        # [Coco] reduced the similarity threshold for the reduced data set
         graph, graph_creation_time = create_networkx_graph(vocab_words, vocab_embeddings,
                                                            similarity_threshold=0.8, percentile_cutoff=sim)
 
         number_of_nodes.append(graph.number_of_nodes())
-
         # calculate the k-components
         start_time = time.process_time()
+        # [coco] reduced graph for better runtime (if wanted / needed)
+        # subgraph = graph.subgraph(list(graph.nodes())[:150])
+        # components_all = approx.k_components(subgraph, min_density=0.8)
+
         components_all = approx.k_components(graph, min_density=0.8)
+
         k_components_time = time.process_time() - start_time
 
         # iterate over all k-components
@@ -278,7 +288,7 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
             # extract k-components
             temp_k_dict = {"K=1": 1, "K=2": 2, "K=3": 3}
             components = components_all[temp_k_dict[k_component]]
-            print("components {comp}".format(comp=components))
+            # print("components {comp}".format(comp=components))
 
             # remove too small topics
             corpus_clusters = []
@@ -286,16 +296,17 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
             # [coco] rename so it's not so awkward for only sentences
             clusters_embeddings = []
             for comp in components:
-                print("comp {comp}".format(comp=comp))
-                # [coco] we need to filter for less than 6 for sentences
-                if (len(comp) >= 6 and graph_level == "words") or (len(comp) >= 2 and graph_level == "sentences"):
+
+                # [coco] we only need this filter for words, makes less sense for sentences
+                # (maybe >= 2 would be good for more input data)
+
+                if (len(comp) >= 6 and graph_level == "words") or  graph_level == "sentences":
                     corpus_clusters.append(list(comp))
                     if graph_level == "sentences":
                         indices =  np.array([vocab_words.index(w) for w in comp])
                         clusters_embeddings.append(vocab_embeddings[indices])
                     if graph_level == "words":
                         clusters_embeddings.append([vocab_embeddings[vocab_words.index(w)] for w in comp])
-            print("cluster embeddings example: {}".format(clusters_embeddings))
 
             if topic_vector_flag:
                 # perform Topic Vector Similarity
@@ -320,10 +331,8 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
                 cluster_words = [sorted(list(c), key=(lambda w: sort_words_by(graph, w, word_weights)), reverse=True)
                                  for c in corpus_clusters]
 
-            print("cluster words example: {}".format(cluster_words))
 
             if len(cluster_words) <= 2:
-                print("cluster words less than 2: true")
                 # topic model did not find enough topics
                 # -1000.0 is the NaN value used in the charts, these values will not be shown in the charts
                 cs_c_v = -1000.0
@@ -335,13 +344,24 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
                 cs_u_mass_test = -1000.0
             else:
                 # for w in words] for words in cluster_words]
-                print("Clusterwords: \n {}".format(cluster_words))
                 # topic model evaluation
                 # intrinsic scores
-                cs_c_v = get_coherence_score(tokenized_docs, cluster_words)
                 dbs = None
-                cs_npmi = npmi_coherence_score(data_processed, cluster_words, len(cluster_words))
-                cs_u_mass = get_coherence_score(tokenized_docs, cluster_words, cs_type='u_mass')
+
+                # [Coco] as im not letting the coherence score run, setting them all to -1000
+                # Gensim only works on Tokens, so a difference coherence calculation is needed
+                # I thought about turning the sentences into lists of Tokens and running it on that, but I cant test
+                # how accurate the result would be (Gensim crashes even when I run the given Code)
+                #tokenized_docs = get_tokenized_sentences(tokenized_docs)
+                if graph_level == "sentences":
+                    cs_u_mass = -1000.0
+                    cs_npmi = -1000.0
+                    cs_c_v = -1000.0
+                else:
+                    cs_c_v = get_coherence_score(tokenized_docs, cluster_words)
+                    cs_npmi = npmi_coherence_score(data_processed, cluster_words, len(cluster_words))
+                    cs_u_mass = get_coherence_score(tokenized_docs, cluster_words, cs_type='u_mass')
+
 
                 # extrinsic scores
                 if test_tokenized_segments is not None:

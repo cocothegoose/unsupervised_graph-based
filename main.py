@@ -8,7 +8,6 @@ from src.get_data import *
 from src.preprocessing import *
 from src.topic_modeling import *
 import argparse
-import clip
 
 
 def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: list,
@@ -25,9 +24,11 @@ def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: l
     :param raw_test_labels: original test set labels
     """
     if graph_level == "words":
+        print("processing words")
         data_processed, data_processed_labels, vocab, tokenized_docs = preprocessing(
             raw_data, raw_labels, preprocessing_type=data_set)
     else:
+        print("processing sentences")
         assert graph_level == "sentences"
         data_processed, data_processed_labels, vocab, tokenized_docs = preprocessing(
             raw_data, raw_labels, preprocessing_type=data_set, graph_level=graph_level
@@ -40,7 +41,7 @@ def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: l
     else:
         test_tokenized_docs = None
 
-    # perform topic modeling based on topic_model_type
+    # [Coco] perform topic modeling based on topic_model_type
     if topic_model_type == "LDA":
         lda_topics(data_processed, tokenized_docs, test_tokenized_docs)
 
@@ -54,6 +55,7 @@ def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: l
 
     else:
         assert topic_model_type == "k-components"
+        print("modelling k-components")
         k_components_model(data_processed, vocab, tokenized_docs, test_tokenized_docs,
                            data_set_name=data_set, graph_level=graph_level)
 
@@ -73,6 +75,7 @@ if __name__ == "__main__":
     parser.add_argument('--do_testing', dest='do_testing', required=False, default=False, action='store_true',
                         help="is test data available?")
 
+    # [coco] the switch for original setup and new setup
     parser.add_argument("--graph-level", dest="graph_level", required=True, type=str,
                         help="the level of the graph: sentences or words")
 
@@ -81,6 +84,8 @@ if __name__ == "__main__":
     assert args.data_set in ["MUSE", "CRR"], "name the data set you want to use ('MUSE' or 'CRR')"
     assert args.topic_model in ['RRW', 'TVS', 'k-components', 'LDA'], (
         "select one of the topic models: ['RRW', 'TVS', 'k-components', 'LDA]")
+
+    # [coco] switch part 2
     assert args.graph_level in ['sentences', 'words'], (
         "select one of the graph levels: ['sentences', 'words']"
     )
@@ -88,11 +93,6 @@ if __name__ == "__main__":
     filtered_data, filtered_data_labels, filtered_test_data, filtered_test_data_labels = get_data(
             data_set=args.data_set, get_test_data=args.do_testing)
 
-    start_time = time.time()
-    print(time.localtime())
     main_fct(data_set=args.data_set, topic_model_type=args.topic_model,
              raw_data=filtered_data, raw_labels=filtered_data_labels,
              raw_test_data=filtered_test_data, raw_test_labels=filtered_test_data_labels, graph_level=args.graph_level )
-
-    end_time = time.time()
-    print("time taken: ", end_time - start_time)

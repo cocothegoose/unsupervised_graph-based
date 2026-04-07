@@ -1,7 +1,11 @@
 # Modified by: Coco Sittardt
 # Date: 01.04.2026
 # Changes: new preprocessing version for sentence-based tokens
-from nltk import sent_tokenize # ADDED
+# Date: 07.04.2026
+# Changes: simple method for tokenizing sentences
+import re
+
+from nltk import sent_tokenize
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -9,7 +13,7 @@ from nltk.corpus import stopwords
 from stop_words import get_stop_words
 import nltk
 from collections import Counter
-from typing import Tuple
+from typing import Tuple, List
 
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -81,8 +85,6 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str,
     new_labels = []
     tokenized_docs = []
     for i, doc in enumerate(segments):
-
-        # the original pipeline for preprocessing the tokens
         if graph_level == "words":
             doc = doc.lower()
             tokens = word_tokenize(doc)
@@ -113,7 +115,8 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str,
 
             if len(tokens) == 0:
                 continue
-        # [MODIFIED]for sentences, it is not needed to do any of the lemmatizing or stemming
+
+        # [Coco] for sentences, it is not needed to do any of the lemmatizing or stemming
         else:
             assert graph_level == "sentences"
             tokens = sent_tokenize(doc)
@@ -150,8 +153,6 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str,
                 docs_threshold.append(d_threshold)
                 vocab_threshold.extend(d_threshold)
 
-        print("vocab with out threshold len: " + str(len(vocabulary)))
-        print("vocab threshold len: " + str(len(vocab_threshold)))
         new_docs = docs_threshold
         vocabulary = vocab_threshold
         new_labels = labels_threshold
@@ -159,4 +160,23 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str,
     assert len(new_docs) == len(new_labels)
     return new_docs, new_labels, sorted(list(set(vocabulary))), tokenized_docs
 
+
+def get_tokenized_sentences(tokenized_docs: list)\
+    -> List[List[str]]:
+    """
+    Author Coco
+    Method to get tokenized versions of sentences. Uses basic regex to split and strip it
+    :param tokenized_docs: list of sentences
+    :return: list of lists of tokens per sentence
+    """
+    tokenized_word_docs = []
+    for chunk in tokenized_docs:
+        for sentence in chunk:
+            doc = sentence.lower().split()
+            # [coco] regexing the punctuation
+            doc = [re.sub(r'[^\w\s]', '', w) for w in doc]
+            # and removing the empty tokens ones from the regex
+            doc = [w for w in doc if w]
+            tokenized_word_docs.append(doc)
+    return tokenized_word_docs
 

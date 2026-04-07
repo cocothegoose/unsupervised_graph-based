@@ -1,5 +1,4 @@
 import networkx as nx
-import numpy as np
 
 from src.misc import *
 import time
@@ -130,10 +129,10 @@ def create_networkx_graph(words: list, word_embeddings: list, similarity_thresho
                           percentile_cutoff: int = 70, remove_isolated_nodes: bool = True,
                           method: str = "using_cutoff", top_n: int = 10) -> Tuple[nx.Graph, float]:
     """
-    create_networkx_graph creates a graph given the words and their embeddings
+    create_networkx_graph creates a graph given the words / sentences and their embeddings
 
-    :param words: list of words which will be the nodes
-    :param word_embeddings: embeddings of the words
+    :param words: list of words / sentences which will be the nodes
+    :param word_embeddings: embeddings of the words / sentences
     :param similarity_threshold: cosine similarity threshold value for the edges
     :param percentile_cutoff: percentile threshold value
     :param remove_isolated_nodes: boolean indicating if isolated nodes should be removed
@@ -158,6 +157,7 @@ def create_networkx_graph(words: list, word_embeddings: list, similarity_thresho
     first_half = word_embeddings[:first_half_length]
     second_half = word_embeddings[first_half_length:]
     sim_matrix = cosine_similarity(first_half, second_half)
+
 
     for i in range(len(first_half)):
 

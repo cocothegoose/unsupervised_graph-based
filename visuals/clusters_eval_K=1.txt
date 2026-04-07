@@ -1,0 +1,152 @@
+Topic 1
+Also vying for your luxury SUV allowance . It's powered by BMW twin powered , turbo charged three liter inline six . Add in most of the features one would expect to come . I want more control and quick acceleration . Okay , now let's see how it really drives . It's a coupe like vehicle . It can also be turned off if you prefer . Veering too superficial concerns . I starts around 37 a half $1000 including destination charges . Interior fit and finishes are expected . 
+Topic 2
+A7 Generation five Siri's represents a huge leap forward in terms of technology and interior sophistication . Siri's equipped with adaptive steering , further personalized A5 . The M two features an aluminum intensive body structure that's nearly three inches wider than the standard to Siri's . 
+Topic 3
+The cabin could be updated with real leather , a 12 speaker Harman Kardon audio system , A5 $100 wireless charging nook and 8.8 inch navigation system , replacing the standard 6.5 inch display and Apple Carplay for $300 which might seem offensive since it's usually free . I Drive also includes wireless Apple carplay that works in nearly as good as the tether solution , but it does cost $3 at the moment . 
+Topic 4
+On a happier note , BMW does offer a $700 Driver Assistance package featuring Lane departure warning , forward collision warning and city collision mitigation braking with the $4600 M6 Port Ex packages , 19 inch wheels and 190.4 inch lower sports suspension Ride quality skews to the firm side of the spectrum . BMW five series could be Spectra , a wide range of prices from slightly more than $52,000 well over $80,000 for a loaded in 5 50 i X Dr . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : None
+
+execution time: 188.078125
+number of nodes: 250
+
+
+
+Topic 1
+Also vying for your luxury SUV allowance . It's powered by BMW twin powered , turbo charged three liter inline six . It's a coupe like vehicle . Okay , now let's see how it really drives . But we could have if that doesn't turn you off . I want more control and quick acceleration . It can also be turned off if you prefer . Those in the market for a well equipped for 35 . I kind of dig . You can't make this stuff up wave to the people . 
+Topic 2
+Siri's equipped with adaptive steering , further personalized A5 . A7 Generation five Siri's represents a huge leap forward in terms of technology and interior sophistication . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 98.453125
+number of nodes: 227
+
+
+
+Topic 1
+Also vying for your luxury SUV allowance . Okay , it's not yet . Yeah , what , he said . It's powered by BMW twin powered , turbo charged three liter inline six . Veering too superficial concerns . It can also be turned off if you prefer . Add in most of the features one would expect to come . You can't make this stuff up wave to the people . But we could have if that doesn't turn you off . So what do you think ? 
+Topic 2
+Siri's equipped with adaptive steering , further personalized A5 . A7 Generation five Siri's represents a huge leap forward in terms of technology and interior sophistication . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 52.265625
+number of nodes: 207
+
+
+
+Topic 1
+I kind of dig . Yeah , what , he said . Also vying for your luxury SUV allowance . Add in most of the features one would expect to come . Okay , it's not yet . I like to put it another way . When it comes to well , pretty much everything . Veering too superficial concerns . Those in the market for a well equipped for 35 . Deep breaths . 
+Topic 2
+It sure would be nice if the rear seats could be lowered from the cargo area instead of having a walk around the side . The rear seats aren't suitable for anyone other than small children and skilled contortionists and cargo space consists of those two seats and the small cubby hole back here . The rear seat is comparatively spacious as well , and the front quarters provide ample headroom for taller drivers . By the same token , the weight conscious front seats offer only six way adjustability lumbar support , not being one of them . Oh , a huge center tunnel takes the shine off that center position behind affordable rear seats . I wouldn't want to sit in the middle spot for an extended trip , but otherwise the X two backseats arm or than endurable , provided you don't mind ducking to clear the dipping roof line . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : -1000.0
+
+execution time: 19.718750
+number of nodes: 167
+
+
+
+Topic 1
+Yeah , what , he said . Okay , it's not yet . Veering too superficial concerns . I kind of dig . I like to put it another way . When it comes to well , pretty much everything . Add in most of the features one would expect to come . Almost . Deep breaths . Also vying for your luxury SUV allowance . 
+Topic 2
+Brisk acceleration with 0 to 60 time , about six and 1/2 seconds despite some off the line turbo lag and good fuel economy . No , not at the same time powers ratted to the front wheels , rear wheels or anywhere in between through a hyper intelligent own wheel drive system made it to a lightweight six speed automatic transmission . It's pretty neat for something that doesn't have a traditional clutch and again way are quite taken with the six speed manual driving right now has short throws . It comes down to 24 thinking technologies , a lightweight carbon fiber reinforced plastic body and a sophisticated plug in hybrid powertrain . If you're a lazy , surly driver who doesn't feel like maintaining the pace of the vehicle ahead of you , it will do that automatically if it is equipped with that technology and this one is done . Of course , the first thing you'll notice power and with 365 horsepower £343 feet of torque for a 0 to 60 in 4.2 seconds , there's certainly no lack of it begins to produce usable power around 3500 rpm . Really , the only criticism I have is the rather unrefined nature of the optional seven speed , double clutch automatic transmission . There's a two litre , turbo charged , four cylinder , A3 liter turbocharged inline six A4 60.4 liter turbocharged V8 and a plug in hybrid that blends electric propulsion with a triple charged four cylinder engine to deliver swift acceleration in 16 miles , a pure electric range . Combined output is 357 horsepower in £420 feet of torque for claim , 0 to 60 time of 4.2 seconds . Then again , most consumers in the market for $137,000 sports car have alternative forms of transportation at their disposal , making the matter of everyday versatility a non issue . 
+Topic 3
+But nickel and dime ing car shoppers for common features is a strategy best left to exotic car makers . Pricier versions and the option sheet reveal a plethora of automotive delights . 
+Topic 4
+Another handy option is dynamic cruise control with stop and go abilities . Note the automatic engine start stop system help save you when the vehicle is stopped . You accelerate from the stop , especially when the transmission is cold way . 
+Topic 5
+But overall , the X two feels like a real BMW with pleasing materials , a stylish layout , nice faux leather upholstery and a standard 10 way power driver's seat with adjustable side bolsters or fancy or taste . The X two comes with a single engine , a two litre turbo charged four cylinder matched to an eight speed automatic transmission that's controlled by a blessedly simple mechanical shift lever instead of the comparatively tricky Elektronik shifter found on most BMWs related . 
+Topic 6
+Prolific dynamic handling package includes variable sport steering and sport breaks and dynamic damper control for improved ride quality . If ride comfort is your top priority , either stick with the Base X two or for $600 at the dynamic handling package with its adjustable dampers . 
+Topic 7
+To put our grievances into perspective , we're well aware of the fact that BMW built cars for profit . Keep in mind , BMW recommends premium fuel , but if you've got extra money , that shouldn't be a problem . 
+Topic 8
+That condensed form factor might think interior space would suffer , and it does . All that , said the fours head turning exterior design is counteracted by its interior shortcomings . 
+Topic 9
+Well controlled wind and city noise makes for a really pleasant interior experience . Inside is a different story where , unlike previous generations , the interior actually looks and feels different . 
+Topic 10
+It sure would be nice if the rear seats could be lowered from the cargo area instead of having a walk around the side . Oh , a huge center tunnel takes the shine off that center position behind affordable rear seats . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : None
+
+execution time: 4.203125
+number of nodes: 117
+
+
+
+Topic 1
+I kind of dig . I like to put it another way . Add in most of the features one would expect to come . It can also be turned off if you prefer . Okay , it's not yet . When it comes to well , pretty much everything . Deep breaths . Let's give that a try . Yeah , what , he said . Almost . 
+Topic 2
+Combined output is 357 horsepower in £420 feet of torque for claim , 0 to 60 time of 4.2 seconds . The two litre , eight speed automatic combination delivers refined operation . 
+Topic 3
+It's pretty neat for something that doesn't have a traditional clutch and again way are quite taken with the six speed manual driving right now has short throws . No , not at the same time powers ratted to the front wheels , rear wheels or anywhere in between through a hyper intelligent own wheel drive system made it to a lightweight six speed automatic transmission . Really , the only criticism I have is the rather unrefined nature of the optional seven speed , double clutch automatic transmission . Brisk acceleration with 0 to 60 time , about six and 1/2 seconds despite some off the line turbo lag and good fuel economy . 
+Topic 4
+And the seats are fantastic , with more adjustment points than most people would know what to do with . The seats are firm , but I like how they feel , even if they're a little lacking in these snazzy looks department . Seats are comfortable and supportive . 
+Topic 5
+There's a two litre , turbo charged , four cylinder , A3 liter turbocharged inline six A4 60.4 liter turbocharged V8 and a plug in hybrid that blends electric propulsion with a triple charged four cylinder engine to deliver swift acceleration in 16 miles , a pure electric range . It comes down to 24 thinking technologies , a lightweight carbon fiber reinforced plastic body and a sophisticated plug in hybrid powertrain . 
+intrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+extrinsic evaluation
+c_v score: -1000.0
+u_mass score: -1000.0
+npmi score: -1000.0
+
+dbs score: : None
+
+execution time: 1.656250
+number of nodes: 67
+
+
+

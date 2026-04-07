@@ -16,7 +16,6 @@ def get_coherence_score(processed_data: list, topic_words: list, cs_type: str = 
     :param top_n_words: max. number of words used in each list of topic words
     :return: coherence score
     """
-
     assert len(topic_words) > 1, "need at least 2 topics"
 
     if len(topic_words) == 1:
@@ -42,6 +41,7 @@ def get_coherence_score(processed_data: list, topic_words: list, cs_type: str = 
                         coherence=cs_type,
                         topn=top_n_words)
 
+    # [Coco] even on the original code this call here breaks internally (no error code or anything) and restarts the entire programm
     return float("{:.2f}".format(cm.get_coherence()))
 
 
