@@ -20,6 +20,7 @@ when connecting the modalities of text and image.
 ### Run
 follow installation Instructions bellow defined by the original paper until point 3.  
 Run `python main.py --data_set MUSE --tm k-components --graph-level sentences`  
+Example Outputs can be seen in visuals. All coherence score calculations are expected to be -1000, thus the graphics also wont work
 
 #### Known Issues
 **Sentences like these are too long for context length:**  
