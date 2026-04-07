@@ -12,17 +12,29 @@ https://github.com/JaTrev/unsupervised_graph-based
 and the paper "Unsupervised Graph-based Topic Modeling from Video Transcriptions"
 by Jason Thies, Lukas Stappen, Gerhard Hagerer, Björn W. Schuller, and Georg Groh.
 
-## Notes
+### Notes
 I'm using CLIP `ViT-B/32` for the sentence embeddings, as I feel that the intended purpose of CLIP (encoding not only text but also images)
 represents the original idea of the paper. The implementation of creating a topic extractor for video transcripts could be enhanced 
 when connecting the modalities of text and image. 
 
-### Issues
-**Sentences like these are too logn for context length:**
-RuntimeError: Input Absolute animal technology in this car , the cameras the reversing camera captures underneath the wing 
-Burr in the front gives you a bird's eye point of view of this car , and you can watch yourself driving along like Grand Theft Auto in the olden days , 
-Um , but this car then moves into the sporty loathe even that we have got a way that it just accelerated from the line . is too long for context length 77
+### Run
+follow installation Instructions bellow defined by the original paper until point 3.  
+Run `python main.py --data_set MUSE --tm k-components --graph-level sentences`  
 
+#### Known Issues
+**Sentences like these are too long for context length:**  
+`RuntimeError: Input Absolute animal technology in this car , the cameras the reversing camera captures underneath the wing 
+Burr in the front gives you a bird's eye point of view of this car , and you can watch yourself driving along like Grand Theft Auto in the olden days , 
+Um , but this car then moves into the sporty loathe even that we have got a way that it just accelerated from the line . is too long for context length 77  `
+  
+=> for the sake of this presentation they're trimmed to length 77
+
+**coherence score doesn't work:**  
+I can not run the coherence calculation with Gensim. Even on the original code it silently crashes and restarts the program again and again.  
+I was not able to figure out why this is, my best guess
+is this Issue that has been reported for Windows:  https://github.com/rstudio/reticulate/issues/1430, https://stackoverflow.com/questions/72279705/runtime-error-when-running-a-lda-model-of-gensim-on-windows, ...
+  
+As the goal was to change as little of the pipeline as necessary, and it was only defined to create a sentence level graph, I've decided to ignore this error by removing all calls to this method
 
 ---
 
