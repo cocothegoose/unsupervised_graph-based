@@ -153,7 +153,7 @@ def get_sentence_vectors(vocab: list,)-> \
                 embedding_i = clip_model.encode_text(text)
             embeddings.append(embedding_i)
 
-            print(f"finished for {min(i+step_size, len(vocab))}")
+            print(f"finished for {min(i+step_size, len(vocab))} sentences")
             del text
         # making one big embedding per sentence => single tensor
         vocab_embeddings = torch.cat(embeddings,dim=0)
