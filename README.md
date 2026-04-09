@@ -5,28 +5,30 @@
 
 **Changes**:   
 Replacing the Word-level Graph with a Sentence-Level Graph using sentence embeddings via CLIP. Goal is 
-to adapt and extend the existing implementation, while keeping the rest of the pipeline unchanged.
+to adapt and extend the existing implementation, while keeping the rest of the pipeline unchanged. Only k-components provides sentences as an option.
 
 **Based on original Work**:  
 https://github.com/JaTrev/unsupervised_graph-based
 and the paper "Unsupervised Graph-based Topic Modeling from Video Transcriptions"
-by Jason Thies, Lukas Stappen, Gerhard Hagerer, Björn W. Schuller, and Georg Groh.
+by Jason Thies, Lukas Stappen, Gerhard Hagerer, Björn W. Schuller, and Georg Groh.  
 
 ### Notes
 I'm using CLIP `ViT-B/32` for the sentence embeddings, as I feel that the intended purpose of CLIP (encoding not only text but also images)
 represents the original idea of the paper. The implementation of creating a topic extractor for video transcripts could be enhanced 
-when connecting the modalities of text and image. 
+when connecting the modalities of text and image.   
+For CPU-only on systems that can't use CUDA the Sentence-Embeddings are generated in chunks.
+
 
 ### Run
 follow installation Instructions bellow defined by the original paper until point 3.  
 Run `python main.py --data_set MUSE --tm k-components --graph-level sentences`  
-Example Outputs can be seen in visuals. All coherence score calculations are expected to be -1000, thus the graphics also wont work
+Example Outputs can be seen in visuals. All coherence score calculations are expected to be -1000, thus the graphics also wont work.  
 
 #### Known Issues
 **Sentences like these are too long for context length:**  
 `RuntimeError: Input Absolute animal technology in this car , the cameras the reversing camera captures underneath the wing 
 Burr in the front gives you a bird's eye point of view of this car , and you can watch yourself driving along like Grand Theft Auto in the olden days , 
-Um , but this car then moves into the sporty loathe even that we have got a way that it just accelerated from the line . is too long for context length 77  `
+Um , but this car then moves into the sporty loathe even that we have got a way that it just accelerated from the line . is too long for context length 77`
   
 => for the sake of this presentation they're trimmed to length 77
 
