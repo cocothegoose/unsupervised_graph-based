@@ -10,7 +10,7 @@ to adapt and extend the existing implementation, while keeping the rest of the p
 **Based on original Work**:  
 https://github.com/JaTrev/unsupervised_graph-based
 and the paper "Unsupervised Graph-based Topic Modeling from Video Transcriptions"
-by Jason Thies, Lukas Stappen, Gerhard Hagerer, Björn W. Schuller, and Georg Groh.  
+by Jason Thies, Lukas Stappen, Gerhard Hagerer, Björn W. Schuller, and Georg Groh. A report on this paper is also in the project. 
 
 ### Notes
 I'm using CLIP `ViT-B/32` for the sentence embeddings, as I feel that the intended purpose of CLIP (encoding not only text but also images)
