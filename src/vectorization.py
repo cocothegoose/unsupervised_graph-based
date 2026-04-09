@@ -1,6 +1,8 @@
 # Modified by: Coco Sittardt
 # Date: 01.04.2026
 # Changes: adding sentence vectors using CLIP https://github.com/openai/CLIP
+from math import ceil
+
 from gensim.models import Word2Vec
 import numpy as np
 from typing import Tuple, Any, Union
@@ -115,10 +117,10 @@ def get_word_vectors(processed_data: list, vocab: list, model_file_name: str, pa
     return vocab_words, vocab_embeddings, w2v_model
 
 
-# [Coco] new vectorizing method for sentences using clip!
 def get_sentence_vectors(vocab: list,)-> \
         Tuple[list, list, clip.model.CLIP ]:
     """
+    [Coco]
     get_sentence_vectors calculates the sentence embeddings (no presaved models or anything)
 
     :param processed_data: list of processed documents
@@ -140,7 +142,7 @@ def get_sentence_vectors(vocab: list,)-> \
         # doing batches so my poor cpu and ram can catch a break
         embeddings = []
         step_size = 64
-        print(f"generating {len(vocab)//step_size} embedding batches")
+        print(f"generating {ceil(len(vocab)/step_size)} embedding batches")
         for i in range(0, len(vocab), step_size):
             current_batch = vocab[i:i + step_size]
             # truncat true as some sentences too long
@@ -168,7 +170,7 @@ def get_sentence_vectors(vocab: list,)-> \
         return vocab, vocab_embeddings.cpu().numpy(), clip_model
 
 def get_vocabulary_embeddings(training_data_processed: list, vocab: list, graph_level:str, topic_model: str, model_file_name: str,
-                              data_set_name: str) -> Tuple[list, list, Word2Vec]: # TODO this also has to be able to return the clip model
+                              data_set_name: str) -> Tuple[list, list, Union[Word2Vec, clip.model.CLIP]]:
     """
     get_vocabulary_embeddings fetches the word embeddings of all relevant vocabulary words / sentences
 

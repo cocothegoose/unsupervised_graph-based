@@ -164,7 +164,7 @@ def preprocessing(segments: list, segment_labels: list, preprocessing_type: str,
 def get_tokenized_sentences(tokenized_docs: list)\
     -> List[List[str]]:
     """
-    Author Coco
+    [Coco]
     Method to get tokenized versions of sentences. Uses basic regex to split and strip it
     :param tokenized_docs: list of sentences
     :return: list of lists of tokens per sentence
@@ -173,7 +173,7 @@ def get_tokenized_sentences(tokenized_docs: list)\
     for chunk in tokenized_docs:
         for sentence in chunk:
             doc = sentence.lower().split()
-            # [coco] regexing the punctuation
+            # regexing the punctuation
             doc = [re.sub(r'[^\w\s]', '', w) for w in doc]
             # and removing the empty tokens ones from the regex
             doc = [w for w in doc if w]

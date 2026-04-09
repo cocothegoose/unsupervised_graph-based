@@ -23,16 +23,9 @@ def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: l
     :param raw_test_data: original test set
     :param raw_test_labels: original test set labels
     """
-    if graph_level == "words":
-        print("processing words")
-        data_processed, data_processed_labels, vocab, tokenized_docs = preprocessing(
-            raw_data, raw_labels, preprocessing_type=data_set)
-    else:
-        print("processing sentences")
-        assert graph_level == "sentences"
-        data_processed, data_processed_labels, vocab, tokenized_docs = preprocessing(
-            raw_data, raw_labels, preprocessing_type=data_set, graph_level=graph_level
-        )
+    data_processed, data_processed_labels, vocab, tokenized_docs = preprocessing(
+        raw_data, raw_labels, preprocessing_type=data_set, graph_level=graph_level
+    )
 
 
     if (raw_test_data is not None) and (raw_test_labels is not None):
@@ -41,7 +34,8 @@ def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: l
     else:
         test_tokenized_docs = None
 
-    # [Coco] perform topic modeling based on topic_model_type
+    #[coco] only k-components adjusted for sentences,
+    # as GraphTMT works on k-components and Baselines are just for comparison
     if topic_model_type == "LDA":
         lda_topics(data_processed, tokenized_docs, test_tokenized_docs)
 
@@ -55,7 +49,6 @@ def main_fct(data_set: str, topic_model_type: str, raw_data: list, raw_labels: l
 
     else:
         assert topic_model_type == "k-components"
-        print("modelling k-components")
         k_components_model(data_processed, vocab, tokenized_docs, test_tokenized_docs,
                            data_set_name=data_set, graph_level=graph_level)
 

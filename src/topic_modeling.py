@@ -267,7 +267,6 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
         x = [x for x in range(50, 100, 10)] + [95]
     for sim in x:
         # create word embedding graph using cutoff threshold
-        # [Coco] reduced the similarity threshold for the reduced data set
         graph, graph_creation_time = create_networkx_graph(vocab_words, vocab_embeddings,
                                                            similarity_threshold=0.8, percentile_cutoff=sim)
 
@@ -302,19 +301,15 @@ def k_components_model(data_processed: list, vocab: list, tokenized_docs: list, 
 
                 if (len(comp) >= 6 and graph_level == "words") or  graph_level == "sentences":
                     corpus_clusters.append(list(comp))
-                    if graph_level == "sentences":
-                        indices =  np.array([vocab_words.index(w) for w in comp])
-                        clusters_embeddings.append(vocab_embeddings[indices])
-                    if graph_level == "words":
-                        clusters_embeddings.append([vocab_embeddings[vocab_words.index(w)] for w in comp])
+                    clusters_embeddings.append([vocab_embeddings[vocab_words.index(w)] for w in comp])
 
             if topic_vector_flag:
                 # perform Topic Vector Similarity
                 # [coco] only for words, no averaging is needed for sentences
-                if graph_level == "words":
-                    topic_vectors = [get_topic_vector(c) for c in clusters_embeddings]
-                else:
-                    topic_vectors = clusters_embeddings
+
+                topic_vectors = [get_topic_vector(c) for c in clusters_embeddings]
+                # else:
+                #     topic_vectors = clusters_embeddings
                 # get topics based on topic vectors
                 topic_vector_cluster_words = []
                 topic_vector_cluster_words_embeddings = []
